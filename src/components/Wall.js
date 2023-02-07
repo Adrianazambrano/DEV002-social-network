@@ -16,7 +16,8 @@ export const Wall = () => {
 </div>
 <div class="contenedorPost">
   <textarea name="" id="" class="textPost" placeholder="Escribe una descripcion para tu publicacion..."></textarea>
-  <img class="fotoConcert" id="postUs">
+  <input type='file' id='selecImg'> 
+  <img class="fotoConcert" id="imagen">
   <span class='fileText'></span>
   <button id='publicar' class="btn-Publicar"> Publicar </button>
 </div>
@@ -34,18 +35,34 @@ export const Wall = () => {
   return divWall;
 };
 
-
-
+// Subir un Post:
 
 window.addEventListener("DOMContentLoaded", async () => {
-  const btnCargarImg = document.querySelector('#publicar');
-  // const post = document.querySelector('#postUs');
-  btnCargarImg.addEventListener('click',() => {
+  const file = document.querySelector('#selecImg').files[0];
+  const name= new Date() + '-' + file.name;
+  
+  const metadata = {
+        contentType: 'image/jpeg'
+      };
+  const task = ref.child(name).put(file,metadata);
+  task
+  .then(snapshot=> snapshop.ref.getDownloadURL())
+  .then (url=>{
+   console.log(url)
+   const image= document.querySelector('#imagen');
+   image.src = url 
+  })
+
+   
+
+ const btnPublicar = document.querySelector('#publicar');
+ btnPublicar.addEventListener('click',() => {
     upLoadImg();
   }
   );
 });
 
+// Agregar, eliminar y editar comentario:
 window.addEventListener("DOMContentLoaded", async () => {
   
   const divComentario = document.querySelector('#contenedorComentario');
@@ -122,7 +139,6 @@ window.addEventListener("DOMContentLoaded", async () => {
         id = "";
         formComent['comentar'].innerText = "Save";
       }
-  
       formComent.reset();
       // description.focus();
     } catch (error) {

@@ -23,6 +23,8 @@ import {
 
 import { 
   getStorage,
+  ref,
+  getDownloadURL,
 } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js';
 
 
@@ -41,7 +43,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const store = getFirestore(app);
-const storage = getStorage();
+const storage = getStorage(app);
 
 
 
@@ -98,21 +100,42 @@ export const authGoogle = () => {
 // 3.- SECCIÓN WALL
 
 //postear imagenes
-let fileText = document.querySelector('.fileText')
-let fileItem;
-let fileName;
+
+// let fileText = document.querySelector('.fileText')
+// let fileItem;
+// let fileName;
+// fileItem = e.target.files[0];
+// fileName = fileItem.name;
+// fileText.innerHTML = fileName;
 
 export const upLoadImg = () => {
- fileItem = e.target.files[0];
- fileName = fileItem.name;
- fileText.innerHTML = fileName;
-  const storageRef = firebase.storage().ref('imagenes/'+fileName);
-  const upLoad = storage.put(fileItem);
-  upLoad.on('state_changed',(snapshot) => {
-    console.log(snapshot);
-}
+  const ref = firebase.storage().ref()
+//   const metadata = {
+//     contentType: 'image/jpeg'
+//   };
+//   const storageRef = ref(storage, 'images/' + file.name);
+//   const uploadTask = uploadBytesResumable(storageRef, file, metadata);
+//   () => {
+//     // Upload completed successfully, now we can get the download URL
+//     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+//       console.log('File available at', downloadURL);
+//     });
+//   }
+// };
 
-)};  
+  //
+  // const task = ref.child(name).put(file,metadata);
+  // task
+  // .then(snapshot=> snapshop.ref.getDownloadURL(image))
+  // .then (url=>{
+  //  console.log(url)
+   
+  //  image.src = url 
+  // })
+
+}
+  
+
 // coleccion de comentarios
 export const coleccionComentarios =  (comentario) => {
   addDoc(collection(store,'comentarios'), { comentario });
