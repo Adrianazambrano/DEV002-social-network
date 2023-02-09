@@ -5,6 +5,7 @@ import {
   getTask,
   updateTask,
   upLoadImg,
+  ref,
   } from '../lib/firebase.js';
 
 export const Wall = () => {
@@ -17,7 +18,7 @@ export const Wall = () => {
 <div class="contenedorPost">
   <textarea name="" id="" class="textPost" placeholder="Escribe una descripcion para tu publicacion..."></textarea>
   <input type='file' id='selecImg'> 
-  <img class="fotoConcert" id="imagen">
+  <img class="fotoConcert" id="imagen"/>
   <span class='fileText'></span>
   <button id='publicar' class="btn-Publicar"> Publicar </button>
 </div>
@@ -38,28 +39,47 @@ export const Wall = () => {
 // Subir un Post:
 
 window.addEventListener("DOMContentLoaded", async () => {
-  const file = document.querySelector('#selecImg').files[0];
-  const name= new Date() + '-' + file.name;
+
+  // console.log(file)
+  // const name= new Date() + '-' + file.name;
   
-  const metadata = {
-        contentType: 'image/jpeg'
-      };
-  const task = ref.child(name).put(file,metadata);
-  task
-  .then(snapshot=> snapshop.ref.getDownloadURL())
-  .then (url=>{
-   console.log(url)
-   const image= document.querySelector('#imagen');
-   image.src = url 
-  })
+  // const metadata = {
+  //       contentType: 'image/jpeg'
+  //     };
+  // const task = ref.child(name).put(file,metadata);
+  // console.log(task);
+  // task
+  // .then(querySnapshot=> querySnapshot.ref.getDownloadURL())
+  // .then (url=>{
+  //  console.log(url)
+  //  const image= document.querySelector('#imagen');
+  //  image.src = url 
+  // })
 
    
+  const btnPublicar = document.querySelector('#publicar');
+  btnPublicar.addEventListener('click', () => {
+    const file = document.querySelector('#selecImg').files[0];
+    // const name = new Date + '-' + file.name
+   upLoadImg(file);
+   
+    // if (file == null) {
+    //   alert('No has seleccionado un archivo');
+    // } else {
+    //   const metadata = {
+    //     contentType: file.type
+    //   };
+    //   const task = ref.child(name).put(file, metadata);
+    //   task
+    //     .then(snapshot => snapshot.ref.getDownloadURL())
+    //     .then (url=>{
+    //        console.log(url)
+    //        const imagenPost = document.querySelector('#imagen')
+    //        imagenPost.setAttribute('src', url);
+    //       })
+    // }
 
- const btnPublicar = document.querySelector('#publicar');
- btnPublicar.addEventListener('click',() => {
-    upLoadImg();
-  }
-  );
+  });
 });
 
 // Agregar, eliminar y editar comentario:
@@ -78,9 +98,9 @@ window.addEventListener("DOMContentLoaded", async () => {
       const task = doc.data();
 
       divComentario.innerHTML += `
-      <div class="card card-body  border-primary">
-    <p>${task.comentario}</p>
-    <div>
+      <div class="divComentarios ">
+    <p class='comentUser'>${task.comentario}</p>
+    <div class='divBotones'>
       <button class="btn btn-primary btn-delete" data-id="${doc.id}">
         🗑 Delete
       </button>

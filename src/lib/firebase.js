@@ -25,6 +25,7 @@ import {
   getStorage,
   ref,
   getDownloadURL,
+  uploadBytes,
 } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js';
 
 
@@ -41,13 +42,10 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
 const auth = getAuth(app);
 const store = getFirestore(app);
 const storage = getStorage(app);
-
-
-
-
 
 
 // 1.- SECCIÓN REGISTRO
@@ -107,9 +105,21 @@ export const authGoogle = () => {
 // fileItem = e.target.files[0];
 // fileName = fileItem.name;
 // fileText.innerHTML = fileName;
+// const storageRef = ref(storage,'images/');
+// export const upLoadImg = uploadBytes(file,storageRef).then((snapshot) => {
+ 
+//  console.log('Uploaded a blob or file!');
+// });
 
-export const upLoadImg = () => {
-  const ref = firebase.storage().ref()
+export const upLoadImg = (file) => {
+  
+  const storageRef = ref(storage);
+  uploadBytes(storageRef, file).then((snapshot) => {
+    console.log('Uploaded a blob or file!');
+  });
+  
+  return storageRef
+ 
 //   const metadata = {
 //     contentType: 'image/jpeg'
 //   };
@@ -123,17 +133,17 @@ export const upLoadImg = () => {
 //   }
 // };
 
-  //
-  // const task = ref.child(name).put(file,metadata);
-  // task
-  // .then(snapshot=> snapshop.ref.getDownloadURL(image))
-  // .then (url=>{
-  //  console.log(url)
+  
+//   const task = ref.child(name).put(file,metadata);
+//   task
+//   .then(snapshot=> snapshop.ref.getDownloadURL(image))
+//   .then (url=>{
+//    console.log(url)
    
-  //  image.src = url 
-  // })
+//    image.src = url 
+//   })
 
-}
+};
   
 
 // coleccion de comentarios
@@ -157,4 +167,4 @@ export const updateTask = (id, newFields) =>
   };  
 
   //
-  
+  export {ref} 
