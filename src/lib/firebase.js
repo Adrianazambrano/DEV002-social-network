@@ -29,7 +29,6 @@ import {
 } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js';
 
 
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
   apiKey: 'AIzaSyAU0Ta8ZyJvb3griwsGlC-PcaqRNjHkMnM',
@@ -111,15 +110,15 @@ export const authGoogle = () => {
 //  console.log('Uploaded a blob or file!');
 // });
 
-export const upLoadImg = (file) => {
+export const upLoadImg = async (file) => {
+
+  const storageRef = ref(storage, 'imagenes');
+  await uploadBytes(storageRef, file)
+  const url = await getDownloadURL(storageRef)
+  console.log(url)
+  return url
   
-  const storageRef = ref(storage);
-  uploadBytes(storageRef, file).then((snapshot) => {
-    console.log('Uploaded a blob or file!');
-  });
   
-  return storageRef
- 
 //   const metadata = {
 //     contentType: 'image/jpeg'
 //   };
@@ -167,4 +166,4 @@ export const updateTask = (id, newFields) =>
   };  
 
   //
-  export {ref} 
+  export {ref,getDownloadURL} 

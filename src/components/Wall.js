@@ -6,6 +6,7 @@ import {
   updateTask,
   upLoadImg,
   ref,
+  
   } from '../lib/firebase.js';
 
 export const Wall = () => {
@@ -58,27 +59,19 @@ window.addEventListener("DOMContentLoaded", async () => {
 
    
   const btnPublicar = document.querySelector('#publicar');
-  btnPublicar.addEventListener('click', () => {
+  console.log(btnPublicar)
+  btnPublicar.addEventListener('click', async () => {
     const file = document.querySelector('#selecImg').files[0];
+    if (file == null){
+      alert('No has seleccionado un archivo');
+    }else{
+    
     // const name = new Date + '-' + file.name
-   upLoadImg(file);
-   
-    // if (file == null) {
-    //   alert('No has seleccionado un archivo');
-    // } else {
-    //   const metadata = {
-    //     contentType: file.type
-    //   };
-    //   const task = ref.child(name).put(file, metadata);
-    //   task
-    //     .then(snapshot => snapshot.ref.getDownloadURL())
-    //     .then (url=>{
-    //        console.log(url)
-    //        const imagenPost = document.querySelector('#imagen')
-    //        imagenPost.setAttribute('src', url);
-    //       })
-    // }
-
+   const imagenUser = await upLoadImg(file);
+   const imagenPost = document.querySelector('#imagen')
+    imagenPost.setAttribute('src', imagenUser);
+  }
+       
   });
 });
 
