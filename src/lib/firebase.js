@@ -26,7 +26,9 @@ import {
   ref,
   getDownloadURL,
   uploadBytes,
+  deleteObject 
 } from 'https://www.gstatic.com/firebasejs/9.15.0/firebase-storage.js';
+
 
 
 // Your web app's Firebase configuration
@@ -45,6 +47,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const store = getFirestore(app);
 const storage = getStorage(app);
+console.log(storage)
 
 
 // 1.- SECCIÓN REGISTRO
@@ -98,18 +101,6 @@ export const authGoogle = () => {
 
 //postear imagenes
 
-// let fileText = document.querySelector('.fileText')
-// let fileItem;
-// let fileName;
-// fileItem = e.target.files[0];
-// fileName = fileItem.name;
-// fileText.innerHTML = fileName;
-// const storageRef = ref(storage,'images/');
-// export const upLoadImg = uploadBytes(file,storageRef).then((snapshot) => {
- 
-//  console.log('Uploaded a blob or file!');
-// });
-
 export const upLoadImg = async (file) => {
 
   const storageRef = ref(storage, 'imagenes');
@@ -117,37 +108,46 @@ export const upLoadImg = async (file) => {
   const url = await getDownloadURL(storageRef)
   console.log(url)
   return url
-  
-  
-//   const metadata = {
-//     contentType: 'image/jpeg'
-//   };
-//   const storageRef = ref(storage, 'images/' + file.name);
-//   const uploadTask = uploadBytesResumable(storageRef, file, metadata);
-//   () => {
-//     // Upload completed successfully, now we can get the download URL
-//     getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-//       console.log('File available at', downloadURL);
-//     });
-//   }
-// };
-
-  
-//   const task = ref.child(name).put(file,metadata);
-//   task
-//   .then(snapshot=> snapshop.ref.getDownloadURL(image))
-//   .then (url=>{
-//    console.log(url)
-   
-//    image.src = url 
-//   })
 
 };
+
+export const DeletePost = async()=>{
+  const desertRef = ref(storage, 'imagenes');
+  await deleteObject(desertRef);
+  const url = await getDownloadURL(desertRef)
+  console.log(url)
+  return url
+
+}
+// coleccion Descripcion del Posst:
+
+// export const coleccionDescripcion =  (comentario) => {
+//   addDoc(collection(store,'descripcion'), { comentario });
+// };
+// export const onGetTasksDescrip = (callback) =>
+//   onSnapshot(collection(store, 'descripcion'), callback);
+
+
+
+// export const deleteDescrip = (id) => deleteDoc(doc(store, 'descripcion', id));
+
+// export const getDescrip = (id) => getDoc(doc(store, 'descripcion', id));
+
+// export const updateDescrip = (id, newFields) =>
+//   updateDoc(doc(store, 'descripcion', id), newFields);
+  
+//   export const obtenerDescripcion = () => {
+//     getDocs(collection(store,'descripcion'));
+//   };  
+
+  //
+  export {ref,getDownloadURL} 
   
 
 // coleccion de comentarios
-export const coleccionComentarios =  (comentario) => {
-  addDoc(collection(store,'comentarios'), { comentario });
+export const coleccionEvento =  (descripcion) => {
+  const evento ={foto:'', descripcion:descripcion,likes:[],comentarios:[]}
+  addDoc(collection(store,'eventos'), evento);
 };
 export const onGetTasks = (callback) =>
   onSnapshot(collection(store, 'comentarios'), callback);
@@ -166,4 +166,4 @@ export const updateTask = (id, newFields) =>
   };  
 
   //
-  export {ref,getDownloadURL} 
+  // export {ref,getDownloadURL} 
